@@ -151,7 +151,7 @@ h1, h2 {
 @media (max-width: 768px) {
 
     .dashboard {
-        flex-direction: column;
+        flex-direction: row;
         height: auto;
         padding: 12px 15px;
         gap: 10px;
@@ -172,7 +172,7 @@ h1, h2 {
     }
 
     .cards-container {
-        flex-direction: rows;
+        flex-direction: column;
         padding: 0 15px;
         gap: 20px;
     }
