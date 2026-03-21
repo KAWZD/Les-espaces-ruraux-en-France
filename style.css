@@ -1,0 +1,92 @@
+h1, h2 {
+    font-family: 'Playfair Display', serif;
+}
+p, a, span {
+    font-family: 'Inter', sans-serif;
+}
+.dashboard {
+    display: flex; 
+    background-color: #3a5a2a; 
+    height: 55px; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 0 30px; 
+    position: sticky; 
+    top: 0;
+    z-index: 1;
+}
+.Cards {
+    min-height: fit-content; 
+    height: 300px; 
+    background-color: #c8dfa0; 
+    width: 100%; 
+    border-radius: 15px; 
+    box-sizing: border-box;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.Cards_img {
+    width: 100%; 
+    height: 200px; 
+    object-fit: cover; 
+    border-radius: 15px 15px 0px 0px; 
+    margin-bottom: 5px;
+}
+.Cards h2, p, a {
+    padding: 0px 5px;
+}
+.Cards:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.15);
+}
+.Footer {
+    display: flex;
+    height: 55px;
+    background-color: #3a5a2a;
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 0px 5px;
+}
+
+/* ---- MOBILE ---- */
+@media (max-width: 768px) {
+
+    h1 {
+        font-size: 22px;
+        text-align: center;
+        padding: 0 15px;
+    }
+
+    h2 {
+        font-size: 16px;
+    }
+
+    .dashboard {
+        flex-direction: column;
+        height: auto;
+        padding: 10px 15px;
+        gap: 8px;
+    }
+
+    .cards-container {
+        flex-direction: column;
+        padding: 0 15px;
+    }
+
+    .Cards {
+        width: 100%;
+        height: auto;
+    }
+
+    .Cards:hover {
+        transform: none;
+    }
+
+    .Footer {
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+        gap: 6px;
+        text-align: center;
+    }
+}
