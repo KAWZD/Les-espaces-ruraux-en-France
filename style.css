@@ -30,6 +30,7 @@ h1, h2 {
 }
 
 .nav-logo {
+    text-decoration: none;
     font-weight: bold;
     font-size: 18px;
     color: #d4e8b0;
