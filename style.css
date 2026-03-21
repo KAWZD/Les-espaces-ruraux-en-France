@@ -172,7 +172,7 @@ h1, h2 {
     }
 
     .cards-container {
-        flex-direction: column;
+        flex-direction: rows;
         padding: 0 15px;
         gap: 20px;
     }
