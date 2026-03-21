@@ -185,8 +185,7 @@ h1, h2 {
         display: flex;
         height: auto;
         padding: 12px;
-        gap: 6px;
-        justify-content: space-evenly;
-        text-align: center;
+        justify-content: space-between;
+        align-content: center;
     }
 }
