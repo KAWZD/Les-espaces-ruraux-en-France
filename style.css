@@ -182,10 +182,11 @@ h1, h2 {
     }
 
     .Footer {
-        flex-direction: column;
+        display: flex;
         height: auto;
         padding: 12px;
         gap: 6px;
+        justify-content: space-evenly;
         text-align: center;
     }
 }
