@@ -174,7 +174,7 @@ h1, h2 {
 
     .cards-container {
         flex-direction: column;
-        padding: 0 15px;
+        padding: 0 20px;
         gap: 20px;
     }
 
