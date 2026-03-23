@@ -39,16 +39,16 @@
       position: sticky; top: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 56px; height: 64px;
-      background: rgba(13,42,58,0.96);
+      background: rgba(13,42,58,0.97);
       backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(200,168,75,0.3);
+      border-bottom: 2px solid var(--or);
     }
     .nav-logo {
       font-family: 'Playfair Display', serif;
       font-size: 1.5rem; font-weight: 800;
       color: var(--or); text-decoration: none;
     }
-    .nav-links { display: flex; gap: 36px; }
+    .nav-links { display: flex; gap: 36px; align-items: center; }
     .nav-links a {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.85rem; font-weight: 700;
@@ -296,8 +296,10 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
-      .nav { padding: 0 20px; }
+      .nav { padding: 12px 20px; height: auto; flex-wrap: wrap; gap: 10px; }
+      .nav-links { flex-wrap: wrap; gap: 14px; }
       .hero { padding: 72px 24px 56px; }
+      .hero h1 { font-size: 2.2rem; }
       .stats-band { grid-template-columns: repeat(2,1fr); }
       .main { padding: 40px 20px 60px; }
       .compare-band, .charts-grid, .panel-2col, .enjeux-grid { grid-template-columns: 1fr; }

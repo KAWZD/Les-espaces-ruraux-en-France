@@ -36,26 +36,30 @@
     .dashboard {
       position: sticky; top: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 18px 48px;
-      background: var(--vert-fonce);
-      border-bottom: 3px solid var(--or);
+      padding: 0 48px; height: 64px;
+      background: rgba(45,74,30,0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 2px solid var(--or);
     }
     .nav-logo {
       font-family: 'Playfair Display', serif;
-      font-size: 1.6rem; font-weight: 700;
+      font-size: 1.5rem; font-weight: 800;
       color: var(--or); text-decoration: none;
       letter-spacing: 0.04em;
     }
-    .nav-links { display: flex; gap: 32px; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
     .nav-links a {
-      color: var(--creme); text-decoration: none;
-      font-size: 0.95rem; font-weight: 600;
-      letter-spacing: 0.06em; text-transform: uppercase;
-      padding-bottom: 4px;
-      border-bottom: 2px solid transparent;
-      transition: border-color 0.2s, color 0.2s;
+      font-family: 'Source Sans 3', sans-serif;
+      color: rgba(245,240,232,0.75); text-decoration: none;
+      font-size: 0.85rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      transition: color 0.2s;
     }
-    .nav-links a:hover { color: var(--or); border-bottom-color: var(--or); }
+    .nav-links a:hover { color: var(--or); }
+    @media (max-width: 900px) {
+      .dashboard { padding: 12px 20px; height: auto; flex-wrap: wrap; gap: 10px; }
+      .nav-links { flex-wrap: wrap; gap: 14px; }
+    }
 
     /* ─── HERO ─── */
     .hero {
@@ -287,9 +291,9 @@
     @media (max-width: 900px) {
       .stats-bar, .types-grid, .charts-grid, .panel-grid, .enjeux-grid { grid-template-columns: 1fr; }
       .charts-grid .chart-card.full { grid-column: auto; }
-      .dashboard { padding: 14px 20px; flex-wrap: wrap; gap: 12px; }
       .main { padding: 40px 20px 60px; }
       .hero { padding: 50px 20px 40px; }
+      .hero h1 { font-size: 2.2rem; }
     }
 
     /* ─── SCROLL REVEAL ─── */
@@ -306,8 +310,8 @@
 <nav class="dashboard">
   <a href="index.html" class="nav-logo">GéoRural</a>
   <div class="nav-links">
-    <a href="france.html">Partie 1 — La France</a>
-    <a href="bretagne.html">Partie 2 — La Bretagne</a>
+    <a href="france.html">Partie 1 — France</a>
+    <a href="bretagne.html">Partie 2 — Bretagne</a>
     <a href="source.html">Sources</a>
   </div>
 </nav>
