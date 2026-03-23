@@ -7,231 +7,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Lora:ital,wght@0,400;0,600;1,400&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --or:         #FFCE61;
-            --or-fonce:   #c8951a;
-            --or-clair:   #FFE099;
-            --fond:       #fffbf0;
-            --brun-fonce: #3d2a00;
-            --brun-moyen: #5c4010;
-            --texte:      #1a1400;
-            --texte-doux: #4a3a10;
-        }
-
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: 'Lora', serif;
-            background-color: var(--fond);
-            color: var(--texte);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* ── NAV ── */
-        .nav {
-            position: sticky; top: 0; z-index: 100;
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 56px; height: 64px;
-            background: rgba(61,42,0,0.97);
-            backdrop-filter: blur(12px);
-            border-bottom: 2px solid var(--or);
-        }
-        .nav-logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem; font-weight: 800;
-            color: var(--or); text-decoration: none;
-            letter-spacing: 0.04em;
-        }
-        .nav-links { display: flex; gap: 36px; align-items: center; }
-        .nav-links a {
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.85rem; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 0.12em;
-            color: rgba(255,248,230,0.75); text-decoration: none;
-            transition: color 0.2s;
-        }
-        .nav-links a:hover { color: var(--or); }
-
-        /* ── HEADER ── */
-        .page-header {
-            background: var(--brun-fonce);
-            padding: 64px 56px 48px;
-            border-bottom: 2px solid var(--or);
-        }
-        .page-header-kicker {
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.78rem; font-weight: 700;
-            letter-spacing: 0.22em; text-transform: uppercase;
-            color: var(--or);
-            border: 1px solid rgba(255,206,97,0.35);
-            background: rgba(255,206,97,0.08);
-            display: inline-block;
-            padding: 7px 18px; border-radius: 3px;
-            margin-bottom: 20px;
-        }
-        .page-header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2rem, 4vw, 3rem);
-            color: #fff;
-            line-height: 1.15;
-        }
-        .page-header h1 em { font-style: italic; color: var(--or-clair); }
-
-        /* ── STATS ── */
-        .stat-band {
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            background: var(--brun-fonce);
-        }
-        .stat-item {
-            padding: 28px 36px; text-align: center;
-            border-right: 1px solid rgba(255,206,97,0.12);
-        }
-        .stat-item:last-child { border-right: none; }
-        .stat-num {
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 2.6rem; font-weight: 900;
-            color: var(--or); line-height: 1; margin-bottom: 6px;
-        }
-        .stat-label {
-            font-family: 'Lora', serif;
-            font-size: 0.82rem; color: rgba(255,248,230,0.55); line-height: 1.5;
-        }
-
-        /* ── LAYOUT ── */
-        .sources-layout {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-            padding: 48px 56px 60px;
-            max-width: 1100px;
-        }
-
-        /* ── SECTION CARD ── */
-        .section-block {
-            background: white;
-            border-radius: 16px;
-            padding: 32px 36px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            border-top: 3px solid var(--or);
-        }
-        .section-block h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.25rem; font-weight: 700;
-            color: var(--brun-fonce);
-            margin-bottom: 24px;
-            padding-bottom: 14px;
-            border-bottom: 1px solid rgba(255,206,97,0.3);
-            display: flex; align-items: center; gap: 10px;
-        }
-        .section-block h3 .pill {
-            background-color: var(--or);
-            color: var(--brun-fonce);
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.7rem; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 0.5px;
-            padding: 3px 10px; border-radius: 20px;
-        }
-
-        /* ── SOURCE ITEMS ── */
-        .source-list { display: flex; flex-direction: column; gap: 12px; }
-        .source-item {
-            display: flex; align-items: flex-start; gap: 14px;
-            padding: 14px 18px;
-            background: var(--fond);
-            border-radius: 10px;
-            transition: background 0.2s;
-            border: 1px solid rgba(255,206,97,0.15);
-        }
-        .source-item:hover { background: rgba(255,206,97,0.1); }
-        .source-num {
-            min-width: 28px; height: 28px;
-            background: var(--or);
-            color: var(--brun-fonce);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.78rem; font-weight: 700;
-            flex-shrink: 0; margin-top: 1px;
-        }
-        .source-content { flex: 1; }
-        .source-title {
-            font-family: 'Lora', serif;
-            font-size: 0.9rem; font-weight: 600;
-            color: var(--brun-fonce); margin-bottom: 3px;
-        }
-        .source-detail { font-size: 0.82rem; color: var(--texte-doux); line-height: 1.5; }
-        .source-link {
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.8rem; color: var(--or-fonce);
-            word-break: break-all; text-decoration: none;
-            display: block; margin-top: 4px; font-weight: 600;
-        }
-        .source-link:hover { text-decoration: underline; }
-
-        /* ── STAT CARDS DANS SECTIONS ── */
-        .stat-row {
-            display: flex; flex-direction: row;
-            justify-content: flex-start; gap: 14px;
-            flex-wrap: wrap; margin-bottom: 24px;
-        }
-        .stat-card {
-            background: var(--brun-fonce);
-            height: 110px; width: 180px;
-            border-radius: 12px;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            flex-shrink: 0;
-        }
-        .stat-card .big {
-            font-family: 'Barlow Condensed', sans-serif;
-            color: var(--or); font-weight: 900; font-size: 2rem;
-        }
-        .stat-card .label {
-            font-family: 'Lora', serif;
-            color: rgba(255,248,230,0.65); font-size: 0.75rem;
-            text-align: center; padding: 0 12px; line-height: 1.4;
-        }
-
-        /* ── FOOTER ── */
-        .footer {
-            background: var(--brun-fonce);
-            border-top: 1px solid rgba(255,206,97,0.25);
-            padding: 28px 56px;
-            display: flex; align-items: center; justify-content: space-between;
-            margin-top: auto;
-        }
-        .footer-text {
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.85rem; letter-spacing: 0.08em;
-            color: rgba(255,248,230,0.45); text-transform: uppercase;
-        }
-        .footer a {
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase;
-            color: var(--or); text-decoration: none; transition: color 0.2s;
-        }
-        .footer a:hover { color: var(--or-clair); }
-
-        /* ── RESPONSIVE ── */
-        @media (max-width: 768px) {
-            .nav { padding: 12px 20px; height: auto; flex-wrap: wrap; gap: 10px; }
-            .nav-links { flex-wrap: wrap; gap: 14px; }
-            .page-header { padding: 40px 20px 32px; }
-            .stat-band { grid-template-columns: 1fr; }
-            .stat-item { border-right: none; border-bottom: 1px solid rgba(255,206,97,0.1); }
-            .sources-layout { padding: 24px 20px 40px; }
-            .section-block { padding: 20px; }
-            .stat-row { gap: 10px; }
-            .stat-card { width: 140px; height: 90px; }
-            .footer { flex-direction: column; gap: 10px; text-align: center; padding: 20px; }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="page-source">
 
     <!-- NAV -->
     <nav class="nav">
@@ -239,7 +17,7 @@
         <div class="nav-links">
             <a href="france.html">Partie 1 — France</a>
             <a href="bretagne.html">Partie 2 — Bretagne</a>
-            <a href="source.html">Sources</a>
+            <a href="source.html" class="active">Sources</a>
         </div>
     </nav>
 
@@ -250,7 +28,7 @@
     </div>
 
     <!-- STATS -->
-    <div class="stat-band">
+    <div class="source-stat-band">
         <div class="stat-item">
             <div class="stat-num">91%</div>
             <div class="stat-label">du territoire en zone rurale</div>
@@ -272,9 +50,9 @@
             <h3>Partie 1 — La France <span class="pill">Espaces ruraux</span></h3>
 
             <div class="stat-row">
-                <div class="stat-card"><span class="big">91%</span><span class="label">du territoire rural</span></div>
-                <div class="stat-card"><span class="big">33%</span><span class="label">de la population</span></div>
-                <div class="stat-card"><span class="big">+40K</span><span class="label">habitants 2015–2021</span></div>
+                <div class="stat-card-source"><span class="big">91%</span><span class="label">du territoire rural</span></div>
+                <div class="stat-card-source"><span class="big">33%</span><span class="label">de la population</span></div>
+                <div class="stat-card-source"><span class="big">+40K</span><span class="label">habitants 2015–2021</span></div>
             </div>
 
             <div class="source-list">
@@ -374,9 +152,9 @@
             <h3>Partie 2 — La Bretagne <span class="pill">Espaces ruraux</span></h3>
 
             <div class="stat-row">
-                <div class="stat-card"><span class="big">54%</span><span class="label">des Bretons ruraux</span></div>
-                <div class="stat-card"><span class="big">3e</span><span class="label">région touristique</span></div>
-                <div class="stat-card"><span class="big">58%</span><span class="label">prod. porcs nationale</span></div>
+                <div class="stat-card-source"><span class="big">54%</span><span class="label">des Bretons ruraux</span></div>
+                <div class="stat-card-source"><span class="big">3e</span><span class="label">région touristique</span></div>
+                <div class="stat-card-source"><span class="big">58%</span><span class="label">prod. porcs nationale</span></div>
             </div>
 
             <div class="source-list">

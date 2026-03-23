@@ -8,316 +8,22 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
-  <style>
-    :root {
-      --vert-fonce: #2d4a1e;
-      --vert-moyen: #3a5a2a;
-      --vert-clair: #5a7d3a;
-      --vert-pale: #8ab56a;
-      --or: #c8a84b;
-      --or-clair: #e8c878;
-      --creme: #f5f0e8;
-      --brun: #7a5c3a;
-      --texte: #1a1a1a;
-      --texte-doux: #4a4a4a;
-      --blanc: #ffffff;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'Source Sans 3', sans-serif;
-      background-color: var(--creme);
-      color: var(--texte);
-      overflow-x: hidden;
-    }
-
-    /* ─── NAV ─── */
-    .dashboard {
-      position: sticky; top: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 48px; height: 64px;
-      background: rgba(45,74,30,0.97);
-      backdrop-filter: blur(12px);
-      border-bottom: 2px solid var(--or);
-    }
-    .nav-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem; font-weight: 800;
-      color: var(--or); text-decoration: none;
-      letter-spacing: 0.04em;
-    }
-    .nav-links { display: flex; gap: 32px; align-items: center; }
-    .nav-links a {
-      font-family: 'Source Sans 3', sans-serif;
-      color: rgba(245,240,232,0.75); text-decoration: none;
-      font-size: 0.85rem; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--or); }
-    @media (max-width: 900px) {
-      .dashboard { padding: 12px 20px; height: auto; flex-wrap: wrap; gap: 10px; }
-      .nav-links { flex-wrap: wrap; gap: 14px; }
-    }
-
-    /* ─── HERO ─── */
-    .hero {
-      position: relative;
-      background: linear-gradient(135deg, var(--vert-fonce) 0%, #1a3010 60%, var(--brun) 100%);
-      padding: 80px 48px 60px;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background-image: radial-gradient(ellipse at 70% 50%, rgba(200,168,75,0.12) 0%, transparent 60%),
-                        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    }
-    .hero-tag {
-      display: inline-block;
-      font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em;
-      color: var(--or); background: rgba(200,168,75,0.15);
-      border: 1px solid rgba(200,168,75,0.4);
-      padding: 6px 14px; border-radius: 4px;
-      margin-bottom: 24px;
-    }
-    .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.4rem, 5vw, 4rem);
-      color: var(--blanc);
-      line-height: 1.15;
-      max-width: 700px;
-      margin-bottom: 20px;
-    }
-    .hero h1 em { color: var(--or-clair); font-style: italic; }
-    .hero p {
-      color: rgba(245,240,232,0.75);
-      font-size: 1.1rem; max-width: 560px; line-height: 1.7;
-    }
-
-    /* ─── STATS BAR ─── */
-    .stats-bar {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 0;
-      border-top: 3px solid var(--or);
-      background: var(--vert-fonce);
-    }
-    .stat-card {
-      padding: 36px 40px;
-      border-right: 1px solid rgba(255,255,255,0.1);
-      position: relative; overflow: hidden;
-      transition: background 0.3s;
-      cursor: default;
-    }
-    .stat-card:last-child { border-right: none; }
-    .stat-card:hover { background: rgba(200,168,75,0.08); }
-    .stat-card::before {
-      content: '';
-      position: absolute; bottom: 0; left: 0; right: 0;
-      height: 3px; background: var(--or);
-      transform: scaleX(0); transform-origin: left;
-      transition: transform 0.4s;
-    }
-    .stat-card:hover::before { transform: scaleX(1); }
-    .stat-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 3.2rem; font-weight: 900;
-      color: var(--or); line-height: 1;
-      margin-bottom: 8px;
-    }
-    .stat-label { color: rgba(245,240,232,0.7); font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
-    .stat-sub { color: rgba(245,240,232,0.45); font-size: 0.8rem; margin-top: 4px; }
-
-    /* ─── MAIN CONTENT ─── */
-    .main { padding: 60px 48px 80px; max-width: 1280px; margin: 0 auto; }
-
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.9rem; color: var(--vert-fonce);
-      margin-bottom: 8px;
-    }
-    .section-title span { color: var(--or); }
-    .section-sub { color: var(--texte-doux); font-size: 1rem; margin-bottom: 40px; }
-    .divider { width: 64px; height: 3px; background: var(--or); margin: 16px 0 32px; }
-
-    /* ─── TYPES ESPACES ─── */
-    .types-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 24px; margin-bottom: 72px;
-    }
-    .type-card {
-      border-radius: 12px; overflow: hidden;
-      background: var(--blanc);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-      transition: transform 0.3s, box-shadow 0.3s;
-      cursor: default;
-    }
-    .type-card:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(0,0,0,0.12); }
-    .type-header {
-      padding: 24px 28px 20px;
-      color: var(--blanc);
-    }
-    .type-card:nth-child(1) .type-header { background: var(--vert-fonce); }
-    .type-card:nth-child(2) .type-header { background: var(--vert-moyen); }
-    .type-card:nth-child(3) .type-header { background: var(--vert-clair); }
-    .type-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.25rem; font-weight: 700; margin-bottom: 4px;
-    }
-    .type-desc { font-size: 0.85rem; opacity: 0.8; }
-    .type-body { padding: 24px 28px; }
-    .type-stat {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid rgba(0,0,0,0.06);
-    }
-    .type-stat:last-child { border-bottom: none; }
-    .type-stat-label { font-size: 0.9rem; color: var(--texte-doux); }
-    .type-stat-val { font-weight: 700; color: var(--vert-fonce); font-size: 1rem; }
-    .type-tag {
-      display: inline-block; margin-top: 16px;
-      font-size: 0.75rem; font-weight: 700;
-      padding: 5px 12px; border-radius: 20px;
-      background: rgba(58,90,42,0.1); color: var(--vert-moyen);
-    }
-
-    /* ─── CHARTS GRID ─── */
-    .charts-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 32px; margin-bottom: 72px;
-    }
-    .chart-card {
-      background: var(--blanc);
-      border-radius: 16px;
-      padding: 32px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-    }
-    .chart-card.full { grid-column: 1 / -1; }
-    .chart-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.2rem; color: var(--vert-fonce);
-      margin-bottom: 4px;
-    }
-    .chart-note { font-size: 0.8rem; color: var(--texte-doux); margin-bottom: 24px; }
-    .chart-wrap { position: relative; height: 260px; }
-    .chart-wrap.tall { height: 320px; }
-
-    /* ─── SECTEURS TABS ─── */
-    .tabs-section { margin-bottom: 72px; }
-    .tabs-nav {
-      display: flex; gap: 8px;
-      border-bottom: 2px solid rgba(58,90,42,0.2);
-      margin-bottom: 32px; flex-wrap: wrap;
-    }
-    .tab-btn {
-      padding: 12px 24px;
-      font-family: 'Source Sans 3', sans-serif;
-      font-size: 0.9rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.06em;
-      background: none; border: none; cursor: pointer;
-      color: var(--texte-doux);
-      border-bottom: 3px solid transparent;
-      margin-bottom: -2px;
-      transition: color 0.2s, border-color 0.2s;
-    }
-    .tab-btn.active { color: var(--vert-fonce); border-bottom-color: var(--or); }
-    .tab-btn:hover:not(.active) { color: var(--vert-moyen); }
-    .tab-panel { display: none; animation: fadeIn 0.3s ease; }
-    .tab-panel.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
-    .panel-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 32px; align-items: start;
-    }
-    .panel-text h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem; color: var(--vert-fonce);
-      margin-bottom: 16px;
-    }
-    .panel-text p { color: var(--texte-doux); line-height: 1.75; margin-bottom: 14px; font-size: 0.97rem; }
-    .info-pill {
-      display: inline-block;
-      background: rgba(58,90,42,0.1); color: var(--vert-fonce);
-      border-left: 3px solid var(--vert-moyen);
-      padding: 10px 16px; border-radius: 0 8px 8px 0;
-      font-size: 0.9rem; font-weight: 600;
-      margin: 8px 0; width: 100%;
-    }
-    .info-pill span { color: var(--vert-clair); }
-
-    /* ─── MULTIFONCTIONNALITE MAP LIST ─── */
-    .multifonc-section { margin-bottom: 72px; }
-    .regions-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 16px; margin-top: 32px;
-    }
-    .region-card {
-      background: var(--blanc);
-      border: 1px solid rgba(58,90,42,0.15);
-      border-radius: 10px; padding: 20px;
-      transition: all 0.25s;
-      cursor: default;
-    }
-    .region-card:hover {
-      border-color: var(--or);
-      box-shadow: 0 4px 16px rgba(200,168,75,0.15);
-      transform: translateY(-2px);
-    }
-    .region-icon { font-size: 1.8rem; margin-bottom: 10px; }
-    .region-name { font-weight: 700; color: var(--vert-fonce); font-size: 0.95rem; }
-    .region-type { font-size: 0.8rem; color: var(--texte-doux); margin-top: 4px; }
-
-    /* ─── ENJEUX ─── */
-    .enjeux-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-    .enjeu-card {
-      background: var(--blanc);
-      border-radius: 12px; padding: 28px;
-      border-top: 4px solid;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
-    }
-    .enjeu-card:nth-child(1) { border-color: var(--vert-moyen); }
-    .enjeu-card:nth-child(2) { border-color: var(--or); }
-    .enjeu-card:nth-child(3) { border-color: var(--brun); }
-    .enjeu-icon { font-size: 2rem; margin-bottom: 14px; }
-    .enjeu-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 10px; color: var(--vert-fonce); }
-    .enjeu-text { font-size: 0.9rem; color: var(--texte-doux); line-height: 1.65; }
-
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 900px) {
-      .stats-bar, .types-grid, .charts-grid, .panel-grid, .enjeux-grid { grid-template-columns: 1fr; }
-      .charts-grid .chart-card.full { grid-column: auto; }
-      .main { padding: 40px 20px 60px; }
-      .hero { padding: 50px 20px 40px; }
-      .hero h1 { font-size: 2.2rem; }
-    }
-
-    /* ─── SCROLL REVEAL ─── */
-    .reveal {
-      opacity: 0; transform: translateY(30px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .reveal.visible { opacity: 1; transform: none; }
-  </style>
+  <link rel="stylesheet" href="style.css"/>
 </head>
-<body>
+<body class="page-france">
 
 <!-- NAV -->
-<nav class="dashboard">
+<nav class="nav">
   <a href="index.html" class="nav-logo">GéoRural</a>
   <div class="nav-links">
-    <a href="france.html">Partie 1 — France</a>
+    <a href="france.html" class="active">Partie 1 — France</a>
     <a href="bretagne.html">Partie 2 — Bretagne</a>
     <a href="source.html">Sources</a>
   </div>
 </nav>
 
 <!-- HERO -->
-<header class="hero">
+<header class="hero-france">
   <div class="hero-tag">Géographie · Première</div>
   <h1>Les espaces ruraux français :<br><em>une multifonctionnalité croissante</em></h1>
   <p>La France dispose de 91 % de son territoire en zone rurale selon la nouvelle définition INSEE. Ces espaces sont loin d'être homogènes : agriculture, industrie, tourisme et résidentiel s'y imbriquent.</p>
@@ -343,7 +49,7 @@
 </div>
 
 <!-- MAIN -->
-<main class="main">
+<main class="main-france france">
 
   <!-- TYPES D'ESPACES -->
   <section class="reveal">
@@ -399,7 +105,6 @@
   <!-- GRAPHIQUES -->
   <section class="charts-grid reveal">
 
-    <!-- Donut usage territoire -->
     <div class="chart-card">
       <div class="chart-title">Usages du territoire rural</div>
       <div class="chart-note">Production globale en France (% superficie)</div>
@@ -408,7 +113,6 @@
       </div>
     </div>
 
-    <!-- Bar emploi rural -->
     <div class="chart-card">
       <div class="chart-title">Répartition de l'emploi en milieu rural</div>
       <div class="chart-note">Plusieurs fonctions économiques coexistent</div>
@@ -417,7 +121,6 @@
       </div>
     </div>
 
-    <!-- Line évolution agriculteurs -->
     <div class="chart-card full">
       <div class="chart-title">Déclin de l'emploi agricole dans les communes rurales</div>
       <div class="chart-note">% d'actifs ruraux travaillant dans l'agriculture (source INSEE)</div>
@@ -572,6 +275,11 @@
 
 </main>
 
+<footer class="footer">
+  <span class="footer-text">Travail de groupe · PG05</span>
+  <a href="credits.html">Crédits</a>
+</footer>
+
 <script>
 // ─── SCROLL REVEAL ───
 const revealEls = document.querySelectorAll('.reveal');
@@ -590,7 +298,6 @@ const COLORS = {
   brun: '#7a5c3a', gris: '#a0a0a0'
 };
 
-// ─── CHART 1 : Usages territoire ───
 new Chart(document.getElementById('chartUsages'), {
   type: 'doughnut',
   data: {
@@ -598,8 +305,7 @@ new Chart(document.getElementById('chartUsages'), {
     datasets: [{
       data: [36, 25, 11, 3, 2, 2, 18],
       backgroundColor: [COLORS.vert1, COLORS.vert2, COLORS.vert3, COLORS.or, COLORS.brun, COLORS.vert4, COLORS.vert5],
-      borderWidth: 3, borderColor: '#f5f0e8',
-      hoverOffset: 10
+      borderWidth: 3, borderColor: '#f5f0e8', hoverOffset: 10
     }]
   },
   options: {
@@ -612,7 +318,6 @@ new Chart(document.getElementById('chartUsages'), {
   }
 });
 
-// ─── CHART 2 : Emploi rural ───
 new Chart(document.getElementById('chartEmploi'), {
   type: 'bar',
   data: {
@@ -634,7 +339,6 @@ new Chart(document.getElementById('chartEmploi'), {
   }
 });
 
-// ─── CHART 3 : Évolution emploi agricole ───
 new Chart(document.getElementById('chartAgri'), {
   type: 'line',
   data: {
@@ -642,20 +346,14 @@ new Chart(document.getElementById('chartAgri'), {
     datasets: [{
       label: '% actifs ruraux en agriculture',
       data: [34, 28, 22, 18, 16],
-      borderColor: COLORS.vert2,
-      backgroundColor: 'rgba(58,90,42,0.1)',
+      borderColor: COLORS.vert2, backgroundColor: 'rgba(58,90,42,0.1)',
       borderWidth: 3, tension: 0.4,
-      pointBackgroundColor: COLORS.or,
-      pointRadius: 6, pointHoverRadius: 9,
-      fill: true
+      pointBackgroundColor: COLORS.or, pointRadius: 6, pointHoverRadius: 9, fill: true
     }]
   },
   options: {
     responsive: true, maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: { callbacks: { label: ctx => ` ${ctx.raw}% des actifs ruraux` } }
-    },
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.raw}% des actifs ruraux` } } },
     scales: {
       y: { beginAtZero: false, min: 10, max: 40, ticks: { callback: v => v + '%' }, grid: { color: 'rgba(0,0,0,0.05)' } },
       x: { grid: { display: false } }
@@ -663,7 +361,6 @@ new Chart(document.getElementById('chartAgri'), {
   }
 });
 
-// ─── CHART Agricole tab ───
 new Chart(document.getElementById('chartProdAgri'), {
   type: 'bar',
   data: {
@@ -675,8 +372,7 @@ new Chart(document.getElementById('chartProdAgri'), {
     }]
   },
   options: {
-    responsive: true, maintainAspectRatio: false,
-    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false, indexAxis: 'y',
     plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.raw}%` } } },
     scales: {
       x: { beginAtZero: true, ticks: { callback: v => v + '%' }, grid: { color: 'rgba(0,0,0,0.05)' } },
@@ -685,7 +381,6 @@ new Chart(document.getElementById('chartProdAgri'), {
   }
 });
 
-// ─── CHART Industriel tab ───
 new Chart(document.getElementById('chartIndustriel'), {
   type: 'doughnut',
   data: {
@@ -703,7 +398,6 @@ new Chart(document.getElementById('chartIndustriel'), {
   }
 });
 
-// ─── CHART Tourisme tab ───
 new Chart(document.getElementById('chartTourisme'), {
   type: 'bar',
   data: {
@@ -725,22 +419,13 @@ new Chart(document.getElementById('chartTourisme'), {
   }
 });
 
-// ─── CHART Résidentiel tab ───
 new Chart(document.getElementById('chartResidentiel'), {
   type: 'bar',
   data: {
     labels: ['Campagnes des villes', 'Campagnes agricoles', 'Campagnes vieillies'],
     datasets: [
-      {
-        label: 'Population (%)',
-        data: [60, 21, 19],
-        backgroundColor: COLORS.vert2, borderRadius: 6,
-      },
-      {
-        label: 'Territoire (%)',
-        data: [28, 28, 44],
-        backgroundColor: COLORS.or, borderRadius: 6,
-      }
+      { label: 'Population (%)', data: [60, 21, 19], backgroundColor: COLORS.vert2, borderRadius: 6 },
+      { label: 'Territoire (%)', data: [28, 28, 44], backgroundColor: COLORS.or, borderRadius: 6 }
     ]
   },
   options: {
@@ -756,7 +441,6 @@ new Chart(document.getElementById('chartResidentiel'), {
   }
 });
 
-// ─── TABS ───
 function switchTab(id, btn) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
