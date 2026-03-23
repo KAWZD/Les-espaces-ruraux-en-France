@@ -1,52 +1,598 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La France et les espaces ruraux</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GéoRural — Les espaces ruraux en France</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Lora:ital,wght@0,400;0,600;1,400&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --vert-fonce:  #1e3a10;
+      --vert-moyen:  #2d5218;
+      --vert-clair:  #4a7a28;
+      --or:          #c8a84b;
+      --or-clair:    #e8c878;
+      --creme:       #f4efe4;
+      --papier:      #faf7f0;
+      --brun:        #6b4c2a;
+      --texte:       #1a1a14;
+      --texte-doux:  #4a4a3a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Lora', serif;
+      background: var(--papier);
+      color: var(--texte);
+      overflow-x: hidden;
+    }
+
+    /* ══════════════════════════════
+       NAV
+    ══════════════════════════════ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 56px;
+      height: 64px;
+      background: rgba(30,58,16,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200,168,75,0.3);
+      transition: background 0.3s;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 800;
+      color: var(--or); text-decoration: none;
+      letter-spacing: 0.04em;
+    }
+    .nav-links { display: flex; gap: 36px; }
+    .nav-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: rgba(244,239,228,0.75);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--or); }
+
+    /* ══════════════════════════════
+       HERO
+    ══════════════════════════════ */
+    .hero {
+      position: relative;
+      height: 100vh; min-height: 620px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      background: var(--vert-fonce);
+    }
+
+    /* animated grain overlay */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 1;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+      opacity: 0.4; pointer-events: none;
+    }
+
+    /* radial glow */
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0; z-index: 1;
+      background: radial-gradient(ellipse 80% 60% at 50% 55%, rgba(200,168,75,0.08) 0%, transparent 65%),
+                  radial-gradient(ellipse 50% 80% at 20% 80%, rgba(74,122,40,0.2) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    /* animated lines background */
+    .hero-lines {
+      position: absolute; inset: 0; z-index: 0;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,255,255,0.025) 60px),
+        repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,0.025) 60px);
+      animation: gridDrift 20s linear infinite;
+    }
+    @keyframes gridDrift {
+      from { background-position: 0 0; }
+      to   { background-position: 60px 60px; }
+    }
+
+    .hero-content {
+      position: relative; z-index: 10;
+      max-width: 860px; padding: 0 32px;
+    }
+
+    .hero-kicker {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--or);
+      border: 1px solid rgba(200,168,75,0.35);
+      background: rgba(200,168,75,0.08);
+      display: inline-block;
+      padding: 7px 18px; border-radius: 3px;
+      margin-bottom: 32px;
+      opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.08;
+      margin-bottom: 28px;
+      opacity: 0; animation: fadeUp 0.9s 0.45s forwards;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--or-clair);
+    }
+
+    .hero-sub {
+      font-family: 'Lora', serif;
+      font-size: 1.15rem;
+      color: rgba(244,239,228,0.65);
+      line-height: 1.75;
+      max-width: 560px; margin: 0 auto 48px;
+      opacity: 0; animation: fadeUp 0.9s 0.65s forwards;
+    }
+
+    .hero-cta {
+      display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.9s 0.85s forwards;
+    }
+    .btn-primary {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.9rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 14px 32px;
+      background: var(--or); color: var(--vert-fonce);
+      text-decoration: none; border-radius: 4px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--or-clair); transform: translateY(-2px); }
+    .btn-outline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.9rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 14px 32px;
+      border: 1.5px solid rgba(200,168,75,0.5); color: var(--or);
+      text-decoration: none; border-radius: 4px;
+      transition: border-color 0.2s, color 0.2s, transform 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--or); color: var(--or-clair); transform: translateY(-2px); }
+
+    .hero-scroll {
+      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+      z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 8px;
+      opacity: 0; animation: fadeIn 1s 1.4s forwards;
+    }
+    .hero-scroll span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(200,168,75,0.6);
+    }
+    .scroll-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, rgba(200,168,75,0.6), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: scaleY(1); }
+      50%       { opacity: 1;   transform: scaleY(1.15); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+
+    /* ══════════════════════════════
+       STAT BAND
+    ══════════════════════════════ */
+    .stat-band {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      background: var(--vert-fonce);
+      border-top: 2px solid var(--or);
+    }
+    .stat-item {
+      padding: 32px 40px;
+      border-right: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+      transition: background 0.3s;
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-item:hover { background: rgba(200,168,75,0.07); }
+    .stat-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 3rem; font-weight: 900;
+      color: var(--or); line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-label {
+      font-family: 'Lora', serif;
+      font-size: 0.85rem; color: rgba(244,239,228,0.6);
+      line-height: 1.5;
+    }
+
+    /* ══════════════════════════════
+       DEFINITION SECTION
+    ══════════════════════════════ */
+    .def-section {
+      display: grid; grid-template-columns: 1fr 2fr;
+      gap: 0;
+      max-width: 1100px; margin: 80px auto;
+      padding: 0 48px;
+    }
+    .def-label {
+      padding-right: 48px;
+      border-right: 2px solid var(--or);
+    }
+    .def-label-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--or); margin-bottom: 16px;
+    }
+    .def-label h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; line-height: 1.25;
+      color: var(--vert-fonce);
+    }
+    .def-label h2 em { font-style: italic; color: var(--vert-clair); }
+    .def-body {
+      padding-left: 56px;
+    }
+    .def-body p {
+      font-size: 1.1rem; line-height: 1.85;
+      color: var(--texte-doux);
+      margin-bottom: 20px;
+    }
+    .def-body p strong { color: var(--vert-fonce); font-weight: 600; }
+    .def-tags {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px;
+    }
+    .def-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.78rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      padding: 6px 14px; border-radius: 3px;
+      background: rgba(45,82,24,0.1); color: var(--vert-moyen);
+      border: 1px solid rgba(45,82,24,0.2);
+    }
+
+    /* ══════════════════════════════
+       CARDS
+    ══════════════════════════════ */
+    .cards-section {
+      max-width: 1100px; margin: 0 auto 80px;
+      padding: 0 48px;
+    }
+    .cards-header {
+      display: flex; align-items: baseline; gap: 20px;
+      margin-bottom: 40px;
+    }
+    .cards-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; color: var(--vert-fonce);
+    }
+    .cards-header-line {
+      flex: 1; height: 1px;
+      background: linear-gradient(to right, var(--or), transparent);
+    }
+    .cards-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+    .card {
+      position: relative; overflow: hidden;
+      border-radius: 14px;
+      background: var(--vert-fonce);
+      min-height: 420px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.4s, box-shadow 0.4s;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    }
+    .card:hover {
+      transform: translateY(-8px) scale(1.01);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    }
+
+    /* SVG landscape placeholder */
+    .card-bg {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      transition: transform 0.6s;
+      z-index: 0;
+    }
+    .card:hover .card-bg { transform: scale(1.06); }
+
+    .card:nth-child(1) .card-bg {
+      background: linear-gradient(160deg, #2d5218 0%, #4a7a28 40%, #8ab56a 70%, #c8d89a 100%);
+    }
+    .card:nth-child(2) .card-bg {
+      background: linear-gradient(160deg, #1a3a5c 0%, #2a5c7a 35%, #3a8a9a 65%, #7ab8c8 100%);
+    }
+
+    /* SVG decorative landscape */
+    .card-landscape {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      z-index: 1; opacity: 0.35;
+      transition: opacity 0.4s;
+    }
+    .card:hover .card-landscape { opacity: 0.5; }
+
+    .card-overlay {
+      position: absolute; inset: 0; z-index: 2;
+      background: linear-gradient(to top, rgba(10,20,6,0.88) 0%, rgba(10,20,6,0.3) 55%, transparent 100%);
+      transition: background 0.4s;
+    }
+    .card:hover .card-overlay {
+      background: linear-gradient(to top, rgba(10,20,6,0.92) 0%, rgba(10,20,6,0.4) 60%, rgba(10,20,6,0.1) 100%);
+    }
+
+    .card-content {
+      position: relative; z-index: 3;
+      padding: 32px 36px;
+    }
+    .card-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--or); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .card-num::before {
+      content: '';
+      width: 28px; height: 1px; background: var(--or);
+    }
+    .card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem; font-weight: 800;
+      color: #fff; line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    .card p {
+      font-family: 'Lora', serif;
+      font-size: 0.9rem; color: rgba(255,255,255,0.65);
+      line-height: 1.65; margin-bottom: 24px;
+    }
+    .card-link {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--or);
+      transition: gap 0.2s;
+    }
+    .card:hover .card-link { gap: 16px; }
+    .card-link::after {
+      content: '→';
+      font-size: 1rem;
+      transition: transform 0.2s;
+    }
+    .card:hover .card-link::after { transform: translateX(4px); }
+
+    /* card stats pills */
+    .card-stats {
+      display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .card-stat {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.08em;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.8);
+      padding: 4px 12px; border-radius: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    /* ══════════════════════════════
+       FOOTER
+    ══════════════════════════════ */
+    .footer {
+      background: var(--vert-fonce);
+      border-top: 1px solid rgba(200,168,75,0.25);
+      padding: 32px 56px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-text {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem; letter-spacing: 0.08em;
+      color: rgba(244,239,228,0.45);
+      text-transform: uppercase;
+    }
+    .footer a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem; letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--or); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer a:hover { color: var(--or-clair); }
+
+    /* ══════════════════════════════
+       SCROLL REVEAL
+    ══════════════════════════════ */
+    .reveal {
+      opacity: 0; transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal.delay-1 { transition-delay: 0.15s; }
+    .reveal.delay-2 { transition-delay: 0.3s; }
+
+    /* ══════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════ */
+    @media (max-width: 820px) {
+      .nav { padding: 0 20px; }
+      .hero h1 { font-size: 2.6rem; }
+      .stat-band { grid-template-columns: 1fr; }
+      .def-section { grid-template-columns: 1fr; padding: 0 24px; }
+      .def-label { border-right: none; border-bottom: 2px solid var(--or); padding: 0 0 24px; margin-bottom: 32px; }
+      .def-body { padding-left: 0; }
+      .cards-section { padding: 0 24px; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px; }
+    }
+  </style>
 </head>
 <body>
-    <div class="dashboard">
-        <a href="index.html" class="nav-logo">GéoRural</a>
-        <div class="nav-links">
-            <a href="france.html">Partie 1 La France</a>    
-            <a href="bretagne.html">Partie 2 La Bretagne</a>
-            <a href="source.html">Sources</a>
-        </div>
-    </div>
 
-    <div class="hero">
-        <h1>Les espaces ruraux en France</h1>
-    </div>
-    
-    <div class="cards-container">
-        <div class="Cards">
-            <img class="Cards_img" src="Images/france espace ruraux.jpg" alt="">
-            <h2>Les espaces ruraux multifonctionnels en France</h2>
-            <p>88% du territoire français est rural.</p>
-            <a href="france.html">Découvrir</a>
-        </div>
-        <div class="Cards">
-            <img class="Cards_img" src="Images/bretagne espace rural.jpg" alt="">
-            <h2>La Bretagne un exemple d'espace rural multifonctionnel</h2>
-            <p>Une région à forte identité rurale.</p>
-            <a href="bretagne.html">Découvrir</a>
-        </div>
-    </div>
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">GéoRural</a>
+  <div class="nav-links">
+    <a href="france.html">Partie 1 — France</a>
+    <a href="bretagne.html">Partie 2 — Bretagne</a>
+    <a href="source.html">Sources</a>
+  </div>
+</nav>
 
-    <div class="text-section">
-        <h2>Qu'est ce qu'un espace rural ?</h2>
-        <p>Un espace rural est un territoire à faible densité résidentielle. Il se caractérise par une économie diverse combinant agriculture, industrie et services. Loin d'être un espace uniquement agricole, il est dit multifonctionnel car il remplit simultanément plusieurs fonctions: productive, résidentielle, touristique et environnementale.</p>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-lines"></div>
+  <div class="hero-content">
+    <div class="hero-kicker">Géographie · Classe de Première · PG05</div>
+    <h1>Les espaces ruraux<br>en <em>France</em></h1>
+    <p class="hero-sub">91 % du territoire national est rural. Ces espaces, loin d'être uniformes, combinent agriculture, industrie, tourisme et résidentiel — une <em>multifonctionnalité</em> croissante.</p>
+    <div class="hero-cta">
+      <a href="france.html" class="btn-primary">Explorer la France</a>
+      <a href="bretagne.html" class="btn-outline">Voir la Bretagne</a>
     </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Défiler</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
 
-    <div class="Footer">
-        <p>Travail de groupe - PG05</p>
-        <a href="credits.html">Crédits</a>
+<!-- STATS BAND -->
+<div class="stat-band">
+  <div class="stat-item">
+    <div class="stat-num">91%</div>
+    <div class="stat-label">du territoire<br>classé en zone rurale</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">33%</div>
+    <div class="stat-label">de la population<br>française vit en rural</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">54%</div>
+    <div class="stat-label">du territoire<br>est une surface agricole</div>
+  </div>
+</div>
+
+<!-- DÉFINITION -->
+<section class="def-section reveal">
+  <div class="def-label">
+    <div class="def-label-tag">Définition</div>
+    <h2>Qu'est-ce qu'un espace <em>rural</em>&nbsp;?</h2>
+  </div>
+  <div class="def-body">
+    <p>Un espace rural est un territoire à <strong>faible densité résidentielle</strong>. Il se caractérise par une économie diverse combinant agriculture, industrie et services.</p>
+    <p>Loin d'être un espace uniquement agricole, il est dit <strong>multifonctionnel</strong> car il remplit simultanément plusieurs fonctions&nbsp;: productive, résidentielle, touristique et environnementale.</p>
+    <p>La <strong>multifonctionnalité</strong> désigne la capacité d'un espace ou d'une activité à remplir plusieurs fonctions simultanément — et cette multifonctionnalité des espaces ruraux français est aujourd'hui <strong>croissante</strong>.</p>
+    <div class="def-tags">
+      <span class="def-tag">Agriculture</span>
+      <span class="def-tag">Tourisme</span>
+      <span class="def-tag">Industrie</span>
+      <span class="def-tag">Résidentiel</span>
+      <span class="def-tag">Environnement</span>
+      <span class="def-tag">Patrimoine</span>
     </div>
+  </div>
+</section>
+
+<!-- CARDS -->
+<section class="cards-section">
+  <div class="cards-header reveal">
+    <h2>Les deux parties</h2>
+    <div class="cards-header-line"></div>
+  </div>
+  <div class="cards-grid">
+
+    <a href="france.html" class="card reveal delay-1">
+      <div class="card-bg"></div>
+
+      <!-- SVG landscape France -->
+      <svg class="card-landscape" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0,160 C80,120 140,140 200,100 C260,60 300,80 360,90 C420,100 460,70 520,80 L600,60 L600,200 L0,200Z" fill="rgba(255,255,255,0.15)"/>
+        <path d="M0,180 C60,160 120,170 180,150 C240,130 300,140 380,130 C440,122 500,135 600,120 L600,200 L0,200Z" fill="rgba(255,255,255,0.1)"/>
+        <circle cx="480" cy="55" r="30" fill="rgba(255,255,255,0.06)"/>
+        <circle cx="500" cy="40" r="18" fill="rgba(255,255,255,0.05)"/>
+      </svg>
+
+      <div class="card-overlay"></div>
+      <div class="card-content">
+        <div class="card-num">Partie 01</div>
+        <h3>Les espaces ruraux multifonctionnels<br>en France</h3>
+        <div class="card-stats">
+          <span class="card-stat">91% du territoire</span>
+          <span class="card-stat">6e rang mondial agricole</span>
+        </div>
+        <p>Agriculture intensive, tourisme vert, industrie rurale, exode urbain… La France rurale cumule les fonctions à l'échelle nationale.</p>
+        <span class="card-link">Découvrir</span>
+      </div>
+    </a>
+
+    <a href="bretagne.html" class="card reveal delay-2">
+      <div class="card-bg"></div>
+
+      <!-- SVG landscape Bretagne -->
+      <svg class="card-landscape" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0,140 C40,100 80,120 120,100 C160,80 200,110 260,95 C320,80 360,60 420,75 C480,90 530,60 600,70 L600,200 L0,200Z" fill="rgba(255,255,255,0.12)"/>
+        <path d="M0,170 C50,155 100,165 160,150 C220,135 270,148 340,138 C400,128 470,142 600,130 L600,200 L0,200Z" fill="rgba(255,255,255,0.08)"/>
+        <!-- wave motif -->
+        <path d="M0,185 Q30,175 60,185 Q90,195 120,185 Q150,175 180,185 Q210,195 240,185 Q270,175 300,185 Q330,195 360,185 Q390,175 420,185 Q450,195 480,185 Q510,175 540,185 Q570,195 600,185" stroke="rgba(255,255,255,0.15)" stroke-width="2" fill="none"/>
+      </svg>
+
+      <div class="card-overlay"></div>
+      <div class="card-content">
+        <div class="card-num">Partie 02</div>
+        <h3>La Bretagne, exemple d'espace rural multifonctionnel</h3>
+        <div class="card-stats">
+          <span class="card-stat">54% ruraux</span>
+          <span class="card-stat">3e région touristique</span>
+        </div>
+        <p>Élevage intensif, industrie agroalimentaire, tourisme balnéaire et patrimoine celtique : la Bretagne illustre parfaitement la multifonctionnalité rurale.</p>
+        <span class="card-link">Découvrir</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span class="footer-text">Travail de groupe · PG05</span>
+  <a href="credits.html">Crédits</a>
+</footer>
+
+<script>
+  // scroll reveal
+  const els = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  els.forEach(el => obs.observe(el));
+</script>
 </body>
 </html>

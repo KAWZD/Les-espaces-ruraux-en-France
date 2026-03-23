@@ -1,23 +1,361 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Source</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Sources – GéoRural</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f5f0;
+            color: #2c2c2c;
+            min-height: 100vh;
+        }
+
+        /* ── NAV (identical to france.html) ── */
+        .dashboard {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 40px;
+            background: white;
+            border-bottom: 1px solid #e5e5e5;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c2c2c;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 28px;
+        }
+        .nav-links a {
+            font-size: 0.875rem;
+            color: #555;
+            text-decoration: none;
+            transition: color .2s;
+        }
+        .nav-links a:hover { color: #2c2c2c; }
+
+        /* ── PAGE HEADER ── */
+        .text-section {
+            padding: 48px 40px 32px;
+        }
+        .text-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2c2c2c;
+        }
+
+        /* ── MAIN LAYOUT ── */
+        .sources-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            padding: 0 40px 60px;
+            max-width: 1000px;
+        }
+
+        /* ── SECTION CARD ── */
+        .section-block {
+            background: white;
+            border-radius: 16px;
+            padding: 32px 36px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .section-block h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #2c2c2c;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #c8dfa0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-block h3 .pill {
+            background-color: #c8dfa0;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        /* ── SOURCE ITEM ── */
+        .source-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .source-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 14px 18px;
+            background: #f7f5f0;
+            border-radius: 10px;
+            transition: background .2s;
+        }
+        .source-item:hover { background: #eef4e1; }
+        .source-num {
+            min-width: 28px;
+            height: 28px;
+            background: #c8dfa0;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .source-content {
+            flex: 1;
+        }
+        .source-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2c2c2c;
+            margin-bottom: 3px;
+        }
+        .source-detail {
+            font-size: 0.8rem;
+            color: #888;
+            line-height: 1.5;
+        }
+        .source-link {
+            font-size: 0.78rem;
+            color: #7aad3a;
+            word-break: break-all;
+            text-decoration: none;
+            display: block;
+            margin-top: 4px;
+        }
+        .source-link:hover { text-decoration: underline; }
+
+        /* ── STAT CARDS (same style as france.html) ── */
+        .stat-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+        .stat-card {
+            background-color: #c8dfa0;
+            height: 120px;
+            width: 200px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .stat-card .big { color: white; font-weight: 700; font-size: 2rem; }
+        .stat-card .label { color: white; font-size: 0.78rem; text-align: center; padding: 0 12px; }
+    </style>
 </head>
 <body>
+
+    <!-- NAV -->
     <div class="dashboard">
         <a href="index.html" class="nav-logo">GéoRural</a>
         <div class="nav-links">
-            <a href="france.html">Partie 1 La France</a>    
+            <a href="france.html">Partie 1 La France</a>
             <a href="bretagne.html">Partie 2 La Bretagne</a>
             <a href="source.html">Sources</a>
         </div>
     </div>
+
+    <!-- HEADER -->
+    <div class="text-section">
+        <h2>Sources & références</h2>
+    </div>
+
+    <div class="sources-layout">
+
+        <!-- ── PARTIE 1 : LA FRANCE ── -->
+        <div class="section-block">
+            <h3>Partie 1 — La France <span class="pill">Espaces ruraux</span></h3>
+
+            <div class="stat-row">
+                <div class="stat-card">
+                    <span class="big">91%</span>
+                    <span class="label">du territoire en zone rurale</span>
+                </div>
+                <div class="stat-card">
+                    <span class="big">33%</span>
+                    <span class="label">de la population française</span>
+                </div>
+                <div class="stat-card">
+                    <span class="big">+40K</span>
+                    <span class="label">habitants entre 2015 et 2021</span>
+                </div>
+            </div>
+
+            <div class="source-list" style="margin-top:24px;">
+
+                <div class="source-item">
+                    <div class="source-num">1</div>
+                    <div class="source-content">
+                        <div class="source-title">Manuel scolaire — Géographie 1ère</div>
+                        <div class="source-detail">Nouvelle édition. Collection S. Bourgeat, C. Bras et M. Chartier. Belin : Éducation, avril 2025. Pages 226–227. Première utilisation : 19/03/2026.</div>
+                    </div>
+                </div>
+
+                <div class="source-item">
+                    <div class="source-num">2</div>
+                    <div class="source-content">
+                        <div class="source-title">INSEE — Statistiques sur les espaces ruraux</div>
+                        <div class="source-detail">Données sur la répartition de l'emploi et la population en milieu rural.</div>
+                        <a class="source-link" href="https://www.insee.fr/fr/statistiques/5039991?sommaire=5040030" target="_blank">insee.fr/fr/statistiques/5039991</a>
+                    </div>
+                </div>
+
+                <div class="source-item">
+                    <div class="source-num">3</div>
+                    <div class="source-content">
+                        <div class="source-title">INSEE — Poids de l'agriculture dans le PIB</div>
+                        <div class="source-detail">L'agriculture (y compris sylviculture et pêche) représente environ 2 % du PIB national.</div>
+                        <a class="source-link" href="https://www.insee.fr/fr/information/7765136" target="_blank">insee.fr/fr/information/7765136</a>
+                    </div>
+                </div>
+
+                <div class="source-item">
+                    <div class="source-num">4</div>
+                    <div class="source-content">
+                        <div class="source-title">INSEE — Emploi agricole en milieu rural</div>
+                        <div class="source-detail">En 2013, seulement 16 % des actifs ruraux travaillaient dans l'agriculture, contre 34 % en 1982.</div>
+                        <a class="source-link" href="https://www.insee.fr/fr/statistiques/3280515" target="_blank">insee.fr/fr/statistiques/3280515</a>
+                    </div>
+                </div>
+
+                <div class="source-item">
+                    <div class="source-num">5</div>
+                    <div class="source-content">
+                        <div class="source-title">Atout France — Poids du tourisme dans l'économie française</div>
+                        <div class="source-detail">En 2023, le PIB direct du tourisme représentait 3,8 % du PIB, soit 83,6 milliards d'euros.</div>
+                        <a class="source-link" href="https://www.atout-france.fr/fr/informations/poids-du-tourisme-dans-leconomie-francaise" target="_blank">atout-france.fr</a>
+                    </div>
+                </div>
+
+                <div class="source-item">
+                    <div class="source-num">6</div>
+                    <div class="source-content">
+                        <div class="source-title">CNES GéoImage — Espaces ruraux en France</div>
+                        <a class="source-link" href="https://cnes.fr/geoimage/espaces-ruraux-france" target="_blank">cnes.fr/geoimage/espaces-ruraux-france</a>
+                    </div>
+                </div>
+
+                <div class="source-item">
+                    <div class="source-num">7</div>
+                    <div class="source-content">
+                        <div class="source-title">Géoconfluences — Glossaire agrobusiness / agro-exportations</div>
+                        <a class="source-link" href="https://geoconfluences.ens-lyon.fr/glossaire/agrobusiness-agro-exportations" target="_blank">geoconfluences.ens-lyon.fr</a>
+                    </div>
+                </div>
+
+                <div class="source-item">
+                    <div class="source-num">8</div>
+                    <div class="source-content">
+                        <div class="source-title">Géoconfluences — Glossaire espace rural / espaces ruraux</div>
+                        <a class="source-link" href="https://geoconfluences.ens-lyon.fr/glossaire/espace-rural-espaces-ruraux" target="_blank">geoconfluences.ens-lyon.fr</a>
+                    </div>
+                </div>
+
+                <div class="source-item">
+                    <div class="source-num">9</div>
+                    <div class="source-content">
+                        <div class="source-title">Géoconfluences — Cadrage France, espaces ruraux et périurbains</div>
+                        <a class="source-link" href="https://geoconfluences.ens-lyon.fr/informations-scientifiques/dossiers-regionaux/france-espaces-ruraux-periurbains/cadrage" target="_blank">geoconfluences.ens-lyon.fr</a>
+                    </div>
+                </div>
+
+                <div class="source-item">
+                    <div class="source-num">10</div>
+                    <div class="source-content">
+                        <div class="source-title">Kartable — La France des espaces ruraux multifonctionnels</div>
+                        <a class="source-link" href="https://www.kartable.fr/ressources/geographie/cours/la-france-des-espaces-ruraux-multifonctionnels/51103" target="_blank">kartable.fr</a>
+                    </div>
+                </div>
+
+                <div class="source-item">
+                    <div class="source-num">11</div>
+                    <div class="source-content">
+                        <div class="source-title">Maxicours — Les espaces ruraux français : une multifonctionnalité liée à de multiples aménagements</div>
+                        <a class="source-link" href="https://www.maxicours.com/se/cours/les-espaces-ruraux-francais-une-multifonctionnalite-liee-a-de-multiples-amenagements/" target="_blank">maxicours.com</a>
+                    </div>
+                </div>
+
+                <div class="source-item">
+                    <div class="source-num">12</div>
+                    <div class="source-content">
+                        <div class="source-title">La Langue Française — Définition agro-exportateur</div>
+                        <a class="source-link" href="https://www.lalanguefrancaise.com/dictionnaire/definition/agro-exportateur" target="_blank">lalanguefrancaise.com</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ── PARTIE 2 : LA BRETAGNE ── -->
+        <div class="section-block">
+            <h3>Partie 2 — La Bretagne <span class="pill">Espaces ruraux</span></h3>
+
+            <div class="stat-row">
+                <div class="stat-card">
+                    <span class="big">54%</span>
+                    <span class="label">des Bretons en espace rural</span>
+                </div>
+                <div class="stat-card">
+                    <span class="big">3e</span>
+                    <span class="label">région touristique française</span>
+                </div>
+                <div class="stat-card">
+                    <span class="big">58%</span>
+                    <span class="label">de la prod. nationale de porcs</span>
+                </div>
+            </div>
+
+            <div class="source-list" style="margin-top:24px;">
+
+                <div class="source-item">
+                    <div class="source-num">1</div>
+                    <div class="source-content">
+                        <div class="source-title">Tourisme Bretagne — Les Parcs naturels régionaux en Bretagne</div>
+                        <div class="source-detail">Présentation des 4 PNR bretons : Armorique, Golfe du Morbihan, Brière, Rance-Émeraude.</div>
+                        <a class="source-link" href="https://www.tourismebretagne.com/selon-mes-envies/topitos/les-parcs-naturels-regionaux-en-bretagne/" target="_blank">tourismebretagne.com</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div><!-- /sources-layout -->
+
 </body>
 </html>
